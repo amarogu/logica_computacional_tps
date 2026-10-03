@@ -1,0 +1,87 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.25.0",
+    "script_metadata_hash": "b5f8526710a1dafc9d7494e11ed11567"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "0f2ea1a6d8b4757bdbe896616bb12a04",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "d39ba9c244bfdec85555bd3e18136dbf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"horario-escolar\">Hor\u00e1rio escolar \u23f1\ufe0f</h1>\n<span class=\"paragraph\">Para gerar um hor\u00e1rio com base nos dados\nem <code>./dados/</code>, <marimo-ui-element object-id='MJUe-0' random-id='f1c66a8e-c616-f066-f70f-a16af25e0047'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;54ae952e62354bc68b3b3104c8476850&quot;}' data-label='null' data-model-id='&quot;54ae952e62354bc68b3b3104c8476850&quot;'></marimo-anywidget></marimo-ui-element>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "7105f664134df97a5c47a89d5de42f9b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "0d3a7538dd19c49e78f0140dfed29ef6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "c3bea0d25499dbd242303c0ac5d0f747",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
