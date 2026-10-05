@@ -83,6 +83,14 @@ def assert_data(from_folder, data):
             f"Ficheiros CSV em falta: {missing}"
         )
 
+    # R4: duplo_periodo subjects are split into blocks of 2 periods
+    odd = [subject['disciplina'] for subject in data['disciplinas']
+           if subject['duplo_periodo'] == 'sim' and int(subject['carga_semanal']) % 2]
+    if odd:
+        raise ValueError(
+            f"Disciplinas com duplo_periodo=sim e carga_semanal ímpar: {', '.join(odd)}."
+        )
+
 
 @app.cell
 def _(Timetable, get_data, mo):
@@ -94,6 +102,7 @@ def _(Timetable, get_data, mo):
             assert_data(from_folder, data=data)
         except ValueError as e:
             mo.output.replace(mo.callout(str(e), kind="danger"))
+            return
         timetable = Timetable([])
         mo.output.append(mo.md(f"""
             <code>generate_timetable(from_folder='./dados/')</code> <br />
@@ -104,13 +113,24 @@ def _(Timetable, get_data, mo):
         model = cp_model.CpModel()
         variables = []
         for grade in data['turmas']:
-            slot = model.new_int_var(0, 4, f'slot_{grade['turma']}')
-            day = model.new_int_var(0, 5, f'day_{grade['turma']}')
-            variables.append((slot, day, grade['turma']))
-        model.add_all_different([day * 5 + slot for slot, day, _ in variables])
-        solver = cp_model.CpSolver()
-        status = solver.solve(model)
-        print(solver.value(variables[0][1]), solver.value(variables[1][1]))
+            times = []
+            for subject in data['disciplinas']:
+                length = 2 if subject['duplo_periodo'] == 'sim' else 1
+                days = []
+                for i in range(int(subject['carga_semanal']) // length):
+                    name = f'{grade['turma']}_{subject['disciplina']}_{i}'
+                    # R4: a double block starts early enough to end on the same day
+                    slot = model.new_int_var(0, 5 - length, f'slot_{name}')
+                    day = model.new_int_var(0, 4, f'day_{name}')
+                    variables.append((slot, day, grade['turma'], subject['disciplina']))
+                    days.append(day)
+                    times += [day * 5 + slot + k for k in range(length)]
+                # R3: increasing days, which also rules out symmetric solutions
+                for earlier, later in zip(days, days[1:]):
+                    model.add(earlier < later)
+            # https://claude.ai/code/session_01YEQ5gktWofWoRzXQcxMRHU
+            # R1: no two lectures of the same grade at the same time
+            model.add_all_different(times)
 
     return (generate_timetable,)
 

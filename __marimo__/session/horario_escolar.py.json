@@ -38,7 +38,7 @@
         {
           "type": "data",
           "data": {
-            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"horario-escolar\">Hor\u00e1rio escolar \u23f1\ufe0f</h1>\n<span class=\"paragraph\">Para gerar um hor\u00e1rio com base nos dados\nem <code>./dados/</code>, <marimo-ui-element object-id='MJUe-0' random-id='dc0f4e91-36a8-17f7-05f0-9822563fb9aa'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;6a7b2bf3e74f4fea94a32c784c64e95d&quot;}' data-label='null' data-model-id='&quot;6a7b2bf3e74f4fea94a32c784c64e95d&quot;'></marimo-anywidget></marimo-ui-element>.</span>\n<div style=\"width: 100%; height: 1px; background-color: #ccc\" /></span>"
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"horario-escolar\">Hor\u00e1rio escolar \u23f1\ufe0f</h1>\n<span class=\"paragraph\">Para gerar um hor\u00e1rio com base nos dados\nem <code>./dados/</code>, <marimo-ui-element object-id='MJUe-0' random-id='fef03d65-2c34-db1f-9bc1-96713997647e'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;1baa8ee823264b8cb6ae5e04bb6fff59&quot;}' data-label='null' data-model-id='&quot;1baa8ee823264b8cb6ae5e04bb6fff59&quot;'></marimo-anywidget></marimo-ui-element>.</span>\n<div style=\"width: 100%; height: 1px; background-color: #ccc\" /></span>"
           }
         }
       ],
@@ -59,7 +59,7 @@
     },
     {
       "id": "lEQa",
-      "code_hash": "7336c23060010ece6d5de96775ee3fd0",
+      "code_hash": "ed8d0de4235425d5b2e5a57af58dd168",
       "outputs": [
         {
           "type": "data",
@@ -72,7 +72,7 @@
     },
     {
       "id": "PKri",
-      "code_hash": "71dafe8847d3262d8042a8e16d5008f1",
+      "code_hash": "e0b00d08827321b213308d4585016ffa",
       "outputs": [
         {
           "type": "data",
@@ -94,14 +94,7 @@
           }
         }
       ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "0 0\n",
-          "mimetype": "text/plain"
-        }
-      ]
+      "console": []
     },
     {
       "id": "SFPL",
@@ -119,14 +112,7 @@
     {
       "id": "BYtC",
       "code_hash": "d86a0110732e2556543fc0114b6808e5",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     }
   ]
