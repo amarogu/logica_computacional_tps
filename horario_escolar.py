@@ -142,6 +142,7 @@ def _(get_data, mo):
                             else [f"{row['sala']} {n}" for n in range(1, quantity + 1)])
         return names
 
+    # https://claude.ai/code/session_01LGQikCyDfhpbSp5UqZvVCw
     def generate_timetable(from_folder='./dados/'):
         data = get_data(from_folder)
         try:
@@ -322,6 +323,7 @@ def _(get_data, mo):
     # R7: with the times decided, a second (small) model gives each lecture a room of its pool,
     # never two lectures in the same room at once. R7's limit on each pool guarantees this exists.
     # R9: lectures that kept their time from `previous` keep their room whenever possible.
+    # https://claude.ai/code/session_01LGQikCyDfhpbSp5UqZvVCw
     def assign_rooms(data, timetable, previous=None):
         subjects = {subject['disciplina']: subject for subject in data['disciplinas']}
         rooms = room_names(data)
@@ -355,6 +357,7 @@ def _(get_data, mo):
         return True
 
     # R9: H1 for `data`, built from `previous` (H0) and changing as few of its lectures as possible
+    # https://claude.ai/code/session_01LGQikCyDfhpbSp5UqZvVCw
     def regenerate_timetable(previous, data):
         # the lectures of H0 that break a requirement under the new data have to change
         broken = {lecture for issues in check_requirements(data, previous).values()
@@ -448,6 +451,7 @@ def _(get_data, mo):
         def key(self):
             return (self.grade, self.subject, self.day, self.slot, self.length)
 
+    # https://claude.ai/code/session_01LGQikCyDfhpbSp5UqZvVCw
     class Timetable:
         css = """
             .timetables {
@@ -561,7 +565,16 @@ def _(generate_timetable, w):
 
 
 @app.cell(hide_code=True)
-def _(Path, TimetableModel, check_requirements, count_changes, get_data, h0, mo, regenerate_timetable):
+def _(
+    Path,
+    TimetableModel,
+    check_requirements,
+    count_changes,
+    get_data,
+    h0,
+    mo,
+    regenerate_timetable,
+):
     from time import perf_counter
 
     mo.stop(h0 is None)
