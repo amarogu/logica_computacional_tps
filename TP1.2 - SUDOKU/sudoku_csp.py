@@ -1,20 +1,20 @@
 import random
+from ortools.sat.python import cp_model
 
 class box:
-
-    coords = {}
-    n = 3
-
-    def __init__(self, cells=None):
+    def __init__(self, n, cells=None):
+        self.n = n
         self.coords = cells if cells is not None else {}
 
-    def checaLimites(self, i, j): 
-            if(i < 0 or i >= self.n**2 or j < 0 or j >= self.n**2):
-                raise ValueError(f"Coordenadas fora da grelha: ({i}, {j})")
-        
-    def add(self, i, j, val=None): 
-        if(self.checaLimites(i, j)):
-            self.coords[(i, j)] = val
+    def checaLimites(self, i, j):
+        if i < 0 or i >= self.n**2 or j < 0 or j >= self.n**2:
+            raise ValueError(f"Coordenadas fora da grelha: ({i}, {j})")
+
+    def add(self, i, j, val=None):
+        self.checaLimites(i, j)
+        if val is not None and not (1 <= val <= self.n**2):
+            raise ValueError(f"Valor fora de [1, {self.n**2}]: {val}")
+        self.coords[(i, j)] = val
 
     def matriz(self):
         
@@ -33,31 +33,55 @@ class cube(box):
 
 class path(box):
 
-    coords = {}
-
-    def __init__(self, n, inicio, fim): 
-        if(inicio < 0 or fim >= n**2):
-            raise ValueError(f"Coordenadas inválidas: inicio={inicio}, fim={fim}")
-        if(inicio > fim):
-            self.coords = {(i,j) : None for i in range(fim, inicio+1) for j in range(fim, inicio+1)}
+    def __init__(self, n, start, end):
+        self.n = n
+        a1, b1 = start
+        a2, b2 = end
+        if(a1 < 0 or a2 >= n**2 or b1 < 0 or b2 >= n**2):
+            raise ValueError(f"Coordenadas inválidas: ({a1},{b1}), ({a2},{b2})")
+        if(a1 > a2 or b1 > b2):
+            self.coords = {(i,j) : None for i in range(a2, a1+1) for j in range(b2, b1+1)}
         else:
-            self.coords = {(i,j) : None for i in range(inicio, fim+1) for j in range(inicio, fim+1)}
+            self.coords = {(i,j) : None for i in range(a1, a2+1) for j in range(b1, b2+1)}
         print(self.coords)
 
 
-def pistas_aleatorias(n, k=None):
-    coords = {}
-    for _ in range(k if k is not None else n**2):
-        i = random.randint(0, n**2 - 1)
-        j = random.randint(0, n**2 - 1)
-        val = random.randint(1, n**2)
-        coords[(i, j)] = val
-    print(coords)
-    return box(coords)
+def pistas_aleatorias(n, k=None, seed=None):
+    N = n**2
+    rng = random.Random(seed)
+    k = k if k is not None else n
+    celulas = rng.sample([(i, j) for i in range(N) for j in range(N)], k)
+    valores = rng.sample(range(1, N + 1), k)
+    return box(n, dict(zip(celulas, valores)))
 
 
 
 class Modelo:
-    def __init__(self, n): ...              # variáveis [1, n²]
-    def adicionar(self, *grupos): ...       # AllDifferent + fixações
-    def resolver(self): ...                 # grelha ou None
+
+    def __init__(self, n):
+
+        self.n = n
+        self.N = n**2
+        self.m = cp_model.CpModel()
+               
+        self.x = {                         
+            (i, j): self.m.NewIntVar(1,self.N, f"x_{i}_{j}")
+            for i in range(self.N) for j in range(self.N)
+        } 
+
+    def adicionar(self, *grupos):
+        for grupo in grupos: 
+            vars_do_grupo = [self.x[i, j] for (i, j) in grupo.coords.keys()] #retorna as variáveis de cada célula do grupo
+            self.m.AddAllDifferent(vars_do_grupo)  #impoe que todas as variáveis do grupo sejam diferentes para o solver
+            for (i, j), val in grupo.coords.items():
+                if val is not None:
+                    self.m.Add(self.x[i, j] == val)  #Se nao é nula, diz ao solver que a variável não é livre, e sim fixa ao valor val
+
+    def resolver(self):
+        solver = cp_model.CpSolver()
+        status = solver.Solve(self.m)
+
+        if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
+            return [[solver.Value(self.x[i, j]) for j in range(self.N)] for i in range(self.N)]
+        else:
+            return None

@@ -1,0 +1,173 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.25.1",
+    "script_metadata_hash": "8b54ddc638d4df22df47b52661c9d4a4"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "36ba147aa45153daeb78079dac653eda",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "8ecda9e4570491cf38f513a363c24ae0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"sudoku-generico-como-csp\">Sudoku gen\u00e9rico como CSP</h1>\n<span class=\"paragraph\">Linhas, colunas, blocos e pistas s\u00e3o todos o mesmo objeto: um <strong>grupo de\nc\u00e9lulas com a restri\u00e7\u00e3o \"todos diferentes\"</strong> (<code>box</code>). O modelo CSP recebe\ngrupos e n\u00e3o quer saber de onde vieram.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "fc07543c88d1798531f8043b76f5030b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"r1-box-grupo-generico-de-celulas\">R1 \u2014 <code>box</code>: grupo gen\u00e9rico de c\u00e9lulas</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "ed7d33a5fea29805afe2e54c6d302ea4",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "0f33a2897a5253f3de90c770b198abb2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"r2-e-r3-cube-bloco-e-path-troco-reto\">R2 e R3 \u2014 <code>cube</code> (bloco) e <code>path</code> (tro\u00e7o reto)</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "461015b81f7d904e31b5a12f37e97935",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "e4279b4c6f758e96028bb6889a8acc0b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"r4-pistas-aleatorias\">R4 \u2014 Pistas aleat\u00f3rias</h2>\n<span class=\"paragraph\">Devolve um <code>box</code>. C\u00e9lulas <strong>e valores</strong> s\u00e3o sorteados sem repeti\u00e7\u00e3o, porque\no modelo imp\u00f5e \"todos diferentes\" tamb\u00e9m ao grupo das pistas. Por omiss\u00e3o\n<code>k = n</code>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "9c8477c5eebbbf3e372f774eb9076069",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "f79e1b71fc8b9b23fcdc726e11729df2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"r5-modelo-csp-or-tools-cp-sat\">R5 \u2014 Modelo CSP (OR-Tools CP-SAT)</h2>\n<span class=\"paragraph\">Uma vari\u00e1vel inteira por c\u00e9lula, dom\u00ednio <marimo-tex class=\"arithmatex\">||([1, n^2]||)</marimo-tex>. <code>adicionar</code> imp\u00f5e\n<code>AllDifferent</code> a cada grupo e fixa as c\u00e9lulas com valor. <code>resolver</code>\ndevolve a grelha ou <code>None</code> se n\u00e3o houver solu\u00e7\u00e3o.</span>\n<span class=\"paragraph\"><strong>Porqu\u00ea CP-SAT:</strong> tem <code>AddAllDifferent</code> nativo, \u00e9 a sugest\u00e3o da disciplina\ne resolve inst\u00e2ncias deste tamanho em milissegundos.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "b6f377de683e2e916632ebe3c5259508",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "79ed4cf538ee031598646cb47f40956a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"r6-sudoku-completo\">R6 \u2014 Sudoku completo</h2>\n<span class=\"paragraph\">Linhas + colunas + blocos + pistas aleat\u00f3rias.</span>\n<span class=\"paragraph\"><strong>Puzzles sem solu\u00e7\u00e3o:</strong> pistas aleat\u00f3rias podem ser contradit\u00f3rias. A\nescolha foi tentar novas pistas (seeds consecutivas) at\u00e9 haver solu\u00e7\u00e3o, com\num limite de tentativas. Assim o resultado \u00e9 sempre um puzzle v\u00e1lido e,\ncom uma seed fixa, continua reprodut\u00edvel.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "7d21ff7b74b3dcf956483dc6ad8532d8",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "b3e6ff48788fbdae6abe4cc537930d7e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"validacao\">Valida\u00e7\u00e3o</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "f19762797bbf991a784a8085574dd6fa",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "5481f145466b553a3529b2c0440f07b3",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "2a7ba150abbd55e58ac893534c3832cb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"demonstracao-interativa\">Demonstra\u00e7\u00e3o interativa</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "1ebba67236172a44f2a2bcd07be99ce5",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "7f0a1be20ffe3313c21ed963bc70bd54",
+      "outputs": [],
+      "console": []
+    }
+  ]
+}
