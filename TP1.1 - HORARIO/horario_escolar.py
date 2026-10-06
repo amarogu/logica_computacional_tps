@@ -1,8 +1,3 @@
-# /// script
-# dependencies = ["anywidget", "marimo"]
-# requires-python = ">=3.14"
-# ///
-
 import marimo
 
 __generated_with = "0.25.0"
