@@ -1,7 +1,8 @@
 import marimo
 
-__generated_with = "0.25.1"
+__generated_with = "0.24.2"
 app = marimo.App()
+
 
 @app.cell(hide_code=True)
 def _(mo):
@@ -10,15 +11,15 @@ def _(mo):
 
     # Neste trabalho, foi construído na linguagem python um código que lida com o sudoku como um problema Problema de
     #  Satisfação de Restrições (CSP), definindo variáveis, o domínio e as restrições para que o resolvedor ache uma solução
-    #  para o tabuleiro através destes inputs. Usamos o resolvedor da Google CP-SAT por ser o recomendado pelo enunciado, 
-    # além de que é eficiente, gratuito e se encaixa no contexto que estamos trabalhando e com os recursos que podemos 
+    #  para o tabuleiro através destes inputs. Usamos o resolvedor da Google CP-SAT por ser o recomendado pelo enunciado,
+    # além de que é eficiente, gratuito e se encaixa no contexto que estamos trabalhando e com os recursos que podemos
     # fornecer para obter o resultado desejado.
     """)
     return
 
 
 @app.cell
-def _():
+def _(i, j, n, self):
     import random
     from ortools.sat.python import cp_model
 
@@ -38,7 +39,7 @@ def _():
             self.coords[(i, j)] = val
 
         def matriz(self):
-            
+        
             grid = [[0 for _ in range(self.n**2)] for _ in range(self.n**2)]
 
             for i in range(self.n**2):
@@ -47,7 +48,7 @@ def _():
                 print(*grid[i])
 
     class cube():
-        
+    
             self.n = n
             self.coords = {(i * n + a, j * n + b): None for a in range(n) for b in range(n)}
 
@@ -74,7 +75,7 @@ def _():
 
         if k is not None and (k < 0 or k > n**4):
             raise ValueError(f"Valor de k inválido: {k}")
-        
+    
         N = n**2
         rng = random.Random()
 
@@ -95,7 +96,7 @@ def _():
             self.n = n
             self.N = n**2
             self.m = cp_model.CpModel()
-                
+            
             self.x = {                         
                 (i, j): self.m.NewIntVar(1,self.N, f"x_{i}_{j}")
                 for i in range(self.N) for j in range(self.N)
@@ -118,7 +119,8 @@ def _():
                 return [[solver.Value(self.x[i, j]) for j in range(self.N)] for i in range(self.N)]
             else:
                 return None
-            
+        
+
     return
 
 

@@ -1,8 +1,8 @@
-from sudoku_csp import cube, path, pistas_aleatorias, Modelo
+from sudoku_csp import cube, path, pistas_aleatorias, Modelo, XSudoku
 from sudoku_visual import exibe_sudoku, construir_grelha_inicial
 
 # --- CONFIGURAÇÃO ---
-n = 3
+n = 3 
 N = n ** 2
 
 while(True):
@@ -20,19 +20,21 @@ while(True):
         for j in range(n):
             grupos.append(cube(n, i, j))
 
+    grupos.append(XSudoku(n))
+
     # 4. Gerar e adicionar pistas aleatórias
     pistas = pistas_aleatorias(n, k=10)
     grupos.append(pistas)
 
     # 5. Adicionar todos os grupos ao modelo
-    modelo.adicionar(*grupos)
+    modelo.adicionar(*grupos, XS=True)
 
     # 6. EXIBIR ANTES DE RESOLVER
     grelha_inicial = construir_grelha_inicial(n, *grupos)
 
-    # 7. RESOLVER E EXIBIR DEPOIS
+
     solucao = modelo.resolver()
-    
+
     if solucao is not None:
         break
 
