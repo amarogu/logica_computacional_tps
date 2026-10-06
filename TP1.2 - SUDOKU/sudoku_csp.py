@@ -25,13 +25,12 @@ class box:
                 grid[i][j] = self.coords.get((i, j), 0)
             print(*grid[i])
 
-class cube(box):
+class cube():
     def __init__(self, n, i, j): 
         self.n = n
         self.coords = {(i * n + a, j * n + b): None for a in range(n) for b in range(n)}
-        print(self.coords)
 
-class path(box):
+class path():
 
     def __init__(self, n, start, end):
         self.n = n
@@ -43,15 +42,26 @@ class path(box):
             self.coords = {(i,j) : None for i in range(a2, a1+1) for j in range(b2, b1+1)}
         else:
             self.coords = {(i,j) : None for i in range(a1, a2+1) for j in range(b1, b2+1)}
-        print(self.coords)
 
-
-def pistas_aleatorias(n, k=None, seed=None):
+def diagonais(n):
     N = n**2
-    rng = random.Random(seed)
-    k = k if k is not None else n
+    return [path(n, (0, 0), (N - 1, N - 1)),      # principal
+            path(n, (0, N - 1), (N - 1, 0))]      # secundária
+
+def pistas_aleatorias(n, k=None):
+
+    if k is not None and (k < 0 or k > n**4):
+        raise ValueError(f"Valor de k inválido: {k}")
+    
+    N = n**2
+    rng = random.Random()
+
+    if k is not None:
+        k = k
+    else:
+        k = n
     celulas = rng.sample([(i, j) for i in range(N) for j in range(N)], k)
-    valores = rng.sample(range(1, N + 1), k)
+    valores = rng.choices(range(1, N + 1), k=k)       
     return box(n, dict(zip(celulas, valores)))
 
 
@@ -72,7 +82,8 @@ class Modelo:
     def adicionar(self, *grupos):
         for grupo in grupos: 
             vars_do_grupo = [self.x[i, j] for (i, j) in grupo.coords.keys()] #retorna as variáveis de cada célula do grupo
-            self.m.AddAllDifferent(vars_do_grupo)  #impoe que todas as variáveis do grupo sejam diferentes para o solver
+            if isinstance(grupo, (path, cube)):
+                self.m.AddAllDifferent(vars_do_grupo)  #impoe que todas as variáveis do grupo sejam diferentes para o solver
             for (i, j), val in grupo.coords.items():
                 if val is not None:
                     self.m.Add(self.x[i, j] == val)  #Se nao é nula, diz ao solver que a variável não é livre, e sim fixa ao valor val

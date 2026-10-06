@@ -5,10 +5,10 @@ from sudoku_csp import box, cube, path, pistas_aleatorias, Modelo
 
 # ---------- Funções auxiliares ----------
 
-def montar_e_resolver(n, k=None, seed=None):
+def montar_e_resolver(n, k=None):
     """Fluxo completo: pistas -> linhas + colunas + blocos + pistas -> resolver."""
     N = n * n
-    pistas = pistas_aleatorias(n, k, seed=seed)
+    pistas = pistas_aleatorias(n, k)
 
     grupos = [path(n, (i, 0), (i, N - 1)) for i in range(N)]       # linhas
     grupos += [path(n, (0, j), (N - 1, j)) for j in range(N)]      # colunas
@@ -21,9 +21,9 @@ def montar_e_resolver(n, k=None, seed=None):
 
 
 def resolver_com_pistas_validas(n, tentativas=50):
-    """Pistas aleatórias podem ser contraditórias: tenta várias seeds."""
-    for seed in range(tentativas):
-        pistas, sol = montar_e_resolver(n, seed=seed)
+    """Pistas aleatórias podem ser contraditórias: tenta várias vezes."""
+    for _ in range(tentativas):
+        pistas, sol = montar_e_resolver(n)
         if sol is not None:
             return pistas, sol
     pytest.fail(f"Nenhum puzzle solúvel em {tentativas} tentativas (n={n})")
@@ -92,12 +92,18 @@ def test_pistas_mantem_valor_na_solucao(n):
 # ---------- Requisito 3: add rejeita entradas inválidas ----------
 
 @pytest.mark.parametrize("n", [2, 3])
-@pytest.mark.parametrize("i, j", [(-1, 0), (0, -1), ("N", 0), (0, "N")])
+@pytest.mark.parametrize("i, j", [(-1, 0), (0, -1), ("N", 0), (0, "N")])   #N -> Dimensão da grelha, varia de acordo com n
 def test_add_rejeita_coordenadas_fora_da_grelha(n, i, j):
     N = n * n
-    i = N if i == "N" else i
-    j = N if j == "N" else j
-    with pytest.raises((IndexError, ValueError)):
+    if i == "N":
+        i = N
+    else:
+        i = i
+    if j == "N":
+        j = N
+    else:
+        j = j
+    with pytest.raises((IndexError, ValueError)):   #Avisa que o código dentro deve lançar uma exceção do tipo IndexError ou ValueError para passar
         box(n).add(i, j)
 
 
@@ -105,8 +111,11 @@ def test_add_rejeita_coordenadas_fora_da_grelha(n, i, j):
 @pytest.mark.parametrize("val", [0, -1, "N+1"])
 def test_add_rejeita_valores_fora_do_intervalo(n, val):
     N = n * n
-    val = N + 1 if val == "N+1" else val
-    with pytest.raises((IndexError, ValueError)):
+    if val == "N+1":
+        val = N + 1 
+    else: 
+        val
+    with pytest.raises((IndexError, ValueError)):     
         box(n).add(0, 0, val)
 
 
@@ -120,3 +129,23 @@ def test_add_aceita_limites_validos(n):
     assert b.coords[(0, 0)] == 1
     assert b.coords[(N - 1, N - 1)] == N
     assert b.coords[(0, 1)] is None
+
+
+def test_pistas_aleatorias_aceita_k_maior_que_numero_de_valores():
+    pistas = pistas_aleatorias(3, k=10)
+    assert len(pistas.coords) == 10
+    assert all(1 <= valor <= 9 for valor in pistas.coords.values())
+
+
+def test_pistas_podem_repetir_valores_em_celulas_diferentes():
+    n = 2
+    N = n * n
+    pistas = box(n, {(0, 0): 1, (1, 3): 1})
+    grupos = [path(n, (i, 0), (i, N - 1)) for i in range(N)]
+    grupos += [path(n, (0, j), (N - 1, j)) for j in range(N)]
+    grupos += [cube(n, i, j) for i in range(n) for j in range(n)]
+    grupos.append(pistas)
+
+    modelo = Modelo(n)
+    modelo.adicionar(*grupos)
+    assert modelo.resolver() is not None
