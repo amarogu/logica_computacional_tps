@@ -1,0 +1,119 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.25.0",
+    "script_metadata_hash": "b5f8526710a1dafc9d7494e11ed11567"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "0f2ea1a6d8b4757bdbe896616bb12a04",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "0604020b2a01fcb36650da8a75cca2bf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"horario-escolar\">Hor\u00e1rio escolar \u23f1\ufe0f</h1>\n<span class=\"paragraph\">Para gerar um hor\u00e1rio com base nos dados\nem <code>./dados/</code>, <marimo-ui-element object-id='MJUe-0' random-id='fef03d65-2c34-db1f-9bc1-96713997647e'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;1baa8ee823264b8cb6ae5e04bb6fff59&quot;}' data-label='null' data-model-id='&quot;1baa8ee823264b8cb6ae5e04bb6fff59&quot;'></marimo-anywidget></marimo-ui-element>.</span>\n<div style=\"width: 100%; height: 1px; background-color: #ccc\" /></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "7105f664134df97a5c47a89d5de42f9b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "ed8d0de4235425d5b2e5a57af58dd168",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "e0b00d08827321b213308d4585016ffa",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "c3bea0d25499dbd242303c0ac5d0f747",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><code>generate_timetable(from_folder='./dados/')</code> <br />\nA fun\u00e7\u00e3o inicia com o carregamento dos dados de \ud83d\udcc1 <code>from_folder</code>,\nem seguida os ficheiros s\u00e3o validados por <code>assert_data</code> e um modelo \u00e9\ninicializado.</span></span></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "fae3240aa80f71d3eefc4a61e2b1d393",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "d86a0110732e2556543fc0114b6808e5",
+      "outputs": [],
+      "console": []
+    }
+  ]
+}
