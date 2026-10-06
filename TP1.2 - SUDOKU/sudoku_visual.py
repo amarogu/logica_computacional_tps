@@ -1,8 +1,6 @@
 def exibe_sudoku(grelha, n, titulo="SUDOKU"):
     """
     Exibe a grelha do Sudoku formatada no terminal.
-    `grelha`: matriz n^2 x n^2 (com inteiros ou 0/None para células vazias)
-    `n`: dimensão dos blocos (ex: n=3 para Sudoku 9x9)
     """
     if grelha is None:
         print(f"\n{titulo}: Sem solução!")  
@@ -18,7 +16,6 @@ def exibe_sudoku(grelha, n, titulo="SUDOKU"):
         linha_str = "| "
         for j in range(N):
             val = grelha[i][j]
-            # Exibe '.' caso a célula esteja vazia (0 ou None)
             str_val = str(val) if val not in (0, None) else "."
             linha_str += f"{str_val:>{largura_num}} "
             

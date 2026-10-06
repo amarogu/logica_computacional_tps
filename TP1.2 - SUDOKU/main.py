@@ -6,30 +6,29 @@ n = 3
 N = n ** 2
 
 while(True):
-# 1. Instanciar o modelo
     modelo = Modelo(n)
 
-    # 2. Criar linhas e colunas com 'path'
+    # Criar grupos
+
     grupos = []
     for i in range(N):
         grupos.append(path(n, (i, 0), (i, N - 1)))
         grupos.append(path(n, (0, i), (N - 1, i)))
 
-    # 3. Criar blocos com 'cube'
     for i in range(n):
         for j in range(n):
             grupos.append(cube(n, i, j))
 
     grupos.append(XSudoku(n))
 
-    # 4. Gerar e adicionar pistas aleatórias
+    # adicionar pistas aleatórias
     pistas = pistas_aleatorias(n, k=10)
     grupos.append(pistas)
 
-    # 5. Adicionar todos os grupos ao modelo
+    # adicionar todos os grupos ao modelo (parametro XS=True para ativar restrições de Sudoku X)
     modelo.adicionar(*grupos, XS=True)
 
-    # 6. EXIBIR ANTES DE RESOLVER
+    # Exibir antes de resolver
     grelha_inicial = construir_grelha_inicial(n, *grupos)
 
 

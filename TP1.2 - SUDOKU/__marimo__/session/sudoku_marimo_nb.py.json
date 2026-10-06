@@ -2,25 +2,150 @@
   "version": "1",
   "metadata": {
     "marimo_version": "0.25.1",
-    "script_metadata_hash": null
+    "script_metadata_hash": "7448e86ac4639b40797118b928416a13"
   },
   "cells": [
     {
-      "id": "xZYy",
-      "code_hash": null,
-      "outputs": [],
-      "console": []
-    },
-    {
       "id": "Hbol",
-      "code_hash": "ddbac93bde4c775c34016d86f1758b19",
-      "outputs": [],
+      "code_hash": "a63f1e9c8aac9d8000647cc82b605719",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
-      "id": "OfdR",
-      "code_hash": null,
-      "outputs": [],
+      "id": "MJUe",
+      "code_hash": "b2a1fe0c17fdc47929cffb42b8e05398",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"sudoku-generico-como-csp\">Sudoku Gen\u00e9rico como CSP</h1>\n<span class=\"paragraph\">Neste trabalho, o Sudoku <marimo-tex class=\"arithmatex\">||(n^2 \\times n^2||)</marimo-tex> \u00e9 modelado como um\n<strong>problema de satisfa\u00e7\u00e3o de restri\u00e7\u00f5es (CSP)</strong>.</span>\n<span class=\"paragraph\">Linhas, colunas e blocos t\u00eam todos a mesma regra \u2014 <em>\"os valores t\u00eam de ser\ntodos diferentes\"</em> \u2014 e s\u00f3 muda o conjunto de c\u00e9lulas a que ela se aplica.\nPor isso, usamos uma classe gen\u00e9rica (<code>box</code>) para representar um grupo de\nc\u00e9lulas e constru\u00edmos tudo a partir dela.</span>\n<span class=\"paragraph\"><strong>Resolu\u00e7\u00e3o:</strong> us\u00e1mos o <strong>CP-SAT do OR-Tools</strong>, que tem <code>AddAllDifferent</code> e\n\u00e9 a ferramenta sugerida na disciplina.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "3d22f31ec475ee38103ef34a1f210f62",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"uso-de-llms\">Uso de LLMs</h2>\n<div class=\"language-gdscript highlight\"><pre><span></span><code><span class=\"n\">Neste</span><span class=\"w\"> </span><span class=\"n\">trabalho</span><span class=\"p\">,</span><span class=\"w\"> </span><span class=\"n\">a</span><span class=\"w\"> </span><span class=\"n\">intelig\u00eancia</span><span class=\"w\"> </span><span class=\"n\">artificial</span><span class=\"w\"> </span><span class=\"n\">foi</span><span class=\"w\"> </span><span class=\"n\">utilizada</span><span class=\"w\"> </span><span class=\"n\">para</span><span class=\"w\"> </span><span class=\"n\">auxiliar</span><span class=\"w\"> </span><span class=\"n\">na</span><span class=\"w\"> </span><span class=\"n\">constru\u00e7\u00e3o</span><span class=\"w\"> </span><span class=\"n\">do</span><span class=\"w\"> </span><span class=\"n\">c\u00f3digo</span><span class=\"p\">,</span><span class=\"w\"> </span><span class=\"n\">fornecendo</span><span class=\"w\"> </span><span class=\"n\">feedback</span><span class=\"w\"> </span><span class=\"n\">da</span><span class=\"w\"> </span><span class=\"n\">nossa</span><span class=\"w\"> </span><span class=\"n\">implementa\u00e7\u00e3o</span><span class=\"p\">,</span><span class=\"w\"> </span><span class=\"n\">corrigindo</span><span class=\"w\"> </span><span class=\"n\">e</span>\n<span class=\"n\">explicando</span><span class=\"w\"> </span><span class=\"n\">erros</span><span class=\"p\">,</span><span class=\"w\"> </span><span class=\"n\">sugerindo</span><span class=\"w\"> </span><span class=\"n\">melhorias</span><span class=\"p\">,</span><span class=\"w\"> </span><span class=\"n\">criando</span><span class=\"w\"> </span><span class=\"n\">c\u00f3digo</span><span class=\"w\"> </span><span class=\"n\">para</span><span class=\"w\"> </span><span class=\"n\">fins</span><span class=\"w\"> </span><span class=\"n\">de</span><span class=\"w\"> </span><span class=\"n\">apresenta\u00e7\u00e3o</span><span class=\"p\">,</span><span class=\"w\"> </span><span class=\"n\">criando</span><span class=\"w\"> </span><span class=\"n\">alguns</span><span class=\"w\"> </span><span class=\"n\">testes</span><span class=\"w\"> </span><span class=\"n\">unit\u00e1rios</span><span class=\"w\"> </span><span class=\"n\">para</span><span class=\"w\"> </span><span class=\"n\">validar</span><span class=\"w\"> </span><span class=\"n\">nossa</span><span class=\"w\"> </span><span class=\"n\">solu\u00e7\u00e3o</span><span class=\"w\"> </span><span class=\"n\">e</span><span class=\"w\"> </span><span class=\"n\">fornecendo</span><span class=\"w\"> </span><span class=\"n\">explica\u00e7\u00f5es</span><span class=\"w\"> </span><span class=\"n\">sobre</span><span class=\"w\"> </span><span class=\"n\">conceitos</span><span class=\"w\"> </span><span class=\"n\">de</span><span class=\"w\"> </span><span class=\"n\">programa\u00e7\u00e3o</span><span class=\"w\"> </span><span class=\"n\">e</span><span class=\"w\"> </span><span class=\"n\">l\u00f3gica</span><span class=\"w\"> </span><span class=\"n\">computacional</span><span class=\"o\">.</span><span class=\"w\"> </span><span class=\"n\">No</span><span class=\"w\"> </span><span class=\"n\">entanto</span><span class=\"p\">,</span><span class=\"w\"> </span><span class=\"n\">todas</span><span class=\"w\"> </span><span class=\"k\">as</span><span class=\"w\"> </span><span class=\"n\">decis\u00f5es</span><span class=\"w\"> </span><span class=\"n\">finais</span><span class=\"w\"> </span><span class=\"n\">de</span><span class=\"w\"> </span><span class=\"n\">design</span><span class=\"w\"> </span><span class=\"n\">e</span><span class=\"w\"> </span><span class=\"n\">implementa\u00e7\u00e3o</span><span class=\"w\"> </span><span class=\"n\">foram</span><span class=\"w\"> </span>\n<span class=\"n\">feitas</span><span class=\"w\"> </span><span class=\"n\">pelos</span><span class=\"w\"> </span><span class=\"n\">autores</span><span class=\"w\"> </span><span class=\"n\">do</span><span class=\"w\"> </span><span class=\"n\">trabalho</span><span class=\"p\">,</span><span class=\"w\"> </span><span class=\"n\">garantindo</span><span class=\"w\"> </span><span class=\"n\">a</span><span class=\"w\"> </span><span class=\"n\">originalidade</span><span class=\"w\"> </span><span class=\"n\">e</span><span class=\"w\"> </span><span class=\"n\">a</span><span class=\"w\"> </span><span class=\"n\">integridade</span><span class=\"w\"> </span><span class=\"n\">do</span><span class=\"w\"> </span><span class=\"n\">c\u00f3digo</span><span class=\"w\"> </span><span class=\"n\">apresentado</span><span class=\"o\">.</span>\n\n<span class=\"n\">https</span><span class=\"p\">:</span><span class=\"o\">//</span><span class=\"n\">share</span><span class=\"o\">.</span><span class=\"n\">gemini</span><span class=\"o\">.</span><span class=\"n\">google</span><span class=\"o\">/</span><span class=\"n\">t2JGmho9KtrN</span>\n\n<span class=\"n\">https</span><span class=\"p\">:</span><span class=\"o\">//</span><span class=\"n\">claude</span><span class=\"o\">.</span><span class=\"n\">ai</span><span class=\"o\">/</span><span class=\"n\">share</span><span class=\"o\">/</span><span class=\"mi\">5</span><span class=\"n\">bed2586</span><span class=\"o\">-</span><span class=\"n\">b4fc</span><span class=\"o\">-</span><span class=\"mi\">43</span><span class=\"n\">a8</span><span class=\"o\">-</span><span class=\"mi\">947</span><span class=\"n\">a</span><span class=\"o\">-</span><span class=\"n\">c37800a59d80</span>\n</code></pre></div></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "d42b461bbd4f98ac5848ca7015dca45a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"estruturas\">Estruturas</h2>\n<table>\n<thead>\n<tr>\n<th>Classe</th>\n<th>Para que serve</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>box</code></td>\n<td>Grupo gen\u00e9rico de c\u00e9lulas: guarda <code>(linha, coluna) -&gt; valor</code> (<code>None</code> = livre)</td>\n</tr>\n<tr>\n<td><code>cube(n, i, j)</code></td>\n<td>Bloco <marimo-tex class=\"arithmatex\">||(n \\times n||)</marimo-tex> na posi\u00e7\u00e3o <marimo-tex class=\"arithmatex\">||((i, j)||)</marimo-tex></td>\n</tr>\n<tr>\n<td><code>path(n, start, end)</code></td>\n<td>Trecho reto de c\u00e9lulas (usado para linhas e colunas)</td>\n</tr>\n<tr>\n<td><code>XSudoku(n)</code></td>\n<td>Extens\u00e3o: as duas diagonais como grupos</td>\n</tr>\n<tr>\n<td><code>pistas_aleatorias(n, k)</code></td>\n<td><code>box</code> com <marimo-tex class=\"arithmatex\">||(k||)</marimo-tex> pistas em c\u00e9lulas distintas</td>\n</tr>\n<tr>\n<td><code>Modelo(n)</code></td>\n<td>Uma vari\u00e1vel por c\u00e9lula, restri\u00e7\u00f5es e <code>resolver()</code></td>\n</tr>\n</tbody>\n</table></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "348693c859ad97366ade8683248afa87",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "5b04d3f7a40a5858655f957e967bec65",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "d21670c52c03cdc5062ae3ea590c625e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"montar-e-resolver\">Montar e resolver</h2>\n<span class=\"paragraph\">S\u00e3o reunidas todas as linhas, colunas e blocos, mais um grupo de pistas\naleat\u00f3rias (e as diagonais, quando <code>XS=True</code>).</span>\n<span class=\"paragraph\">As pistas s\u00e3o geradas ao acaso, por isso podem ser <strong>contradit\u00f3rias</strong>.\nQuando isso acontece o modelo n\u00e3o tem solu\u00e7\u00e3o, e o programa gera novas\npistas at\u00e9 obter um puzzle resol\u00favel.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "9f6b39d9d8cb02f3efc36c9455264a09",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "9e3852b69308ca16a3aa4848105c1e5a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"antes-e-depois\">Antes e depois</h2>\n<span class=\"paragraph\">Escolhe o tipo de Sudoku e o n\u00famero de pistas; o bot\u00e3o gera um novo puzzle.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "4c779dc8887999d6b2e4192a4566dfdb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 2rem'><marimo-ui-element object-id='RGSE-0' random-id='4f133897-0b06-8544-33cf-144aeddfb45a'><marimo-radio data-initial-value='&quot;Sudoku normal&quot;' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eTipo&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;Sudoku normal&quot;,&quot;X-Sudoku&quot;]' data-inline='true' data-disabled='false'></marimo-radio></marimo-ui-element><marimo-ui-element object-id='RGSE-1' random-id='f5730fc1-0b67-1d43-ceec-2640d7aa5117'><marimo-slider data-initial-value='10' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003ePistas (k)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='5' data-stop='14' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='RGSE-2' random-id='447e6359-2a5b-0483-16db-4f7faa0a99ca'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eNovo puzzle&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "8eeb73a7a10cee6be47aa9722d392cd8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 4rem'><span class=\"markdown prose dark:prose-invert contents\"><div class=\"language-brainfuck codehilite\"><pre><span></span><code><span class=\"c\">=== Sudoku normal \u2014 ANTES ===</span>\n<span class=\"nb\">+-------+-------+-------+</span>\n<span class=\"c\">| </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span>\n<span class=\"c\">| 7 </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | 4 1 </span><span class=\"nt\">.</span><span class=\"c\"> | </span>\n<span class=\"c\">| </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> 4 | 1 8 </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> 6 | </span>\n<span class=\"nb\">+-------+-------+-------+</span>\n<span class=\"c\">| </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | 6 </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span>\n<span class=\"c\">| </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span>\n<span class=\"c\">| </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span>\n<span class=\"nb\">+-------+-------+-------+</span>\n<span class=\"c\">| </span><span class=\"nt\">.</span><span class=\"c\"> 7 </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span>\n<span class=\"c\">| </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> 3 </span><span class=\"nt\">.</span><span class=\"c\"> | </span>\n<span class=\"c\">| </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> </span><span class=\"nt\">.</span><span class=\"c\"> | </span>\n<span class=\"nb\">+-------+-------+-------+</span>\n</code></pre></div></span><span class=\"markdown prose dark:prose-invert contents\"><div class=\"language-brainfuck codehilite\"><pre><span></span><code><span class=\"c\">=== Sudoku normal \u2014 DEPOIS ===</span>\n<span class=\"nb\">+-------+-------+-------+</span>\n<span class=\"c\">| 6 2 1 | 4 7 9 | 5 8 3 | </span>\n<span class=\"c\">| 7 8 5 | 3 2 6 | 4 1 9 | </span>\n<span class=\"c\">| 3 9 4 | 1 8 5 | 2 7 6 | </span>\n<span class=\"nb\">+-------+-------+-------+</span>\n<span class=\"c\">| 8 1 3 | 2 9 4 | 6 5 7 | </span>\n<span class=\"c\">| 2 4 7 | 5 6 3 | 1 9 8 | </span>\n<span class=\"c\">| 9 5 6 | 8 1 7 | 3 2 4 | </span>\n<span class=\"nb\">+-------+-------+-------+</span>\n<span class=\"c\">| 1 7 8 | 6 3 2 | 9 4 5 | </span>\n<span class=\"c\">| 4 6 9 | 7 5 1 | 8 3 2 | </span>\n<span class=\"c\">| 5 3 2 | 9 4 8 | 7 6 1 | </span>\n<span class=\"nb\">+-------+-------+-------+</span>\n</code></pre></div></span></div>"
+          }
+        }
+      ],
       "console": []
     }
   ]

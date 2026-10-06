@@ -82,7 +82,7 @@ class Modelo:
             for i in range(self.N) for j in range(self.N)
         } 
 
-    def adicionar(self, *grupos, XS:bool):
+    def adicionar(self, *grupos, XS: bool = False):
         for grupo in grupos: 
             if isinstance(grupo, XSudoku):
                 if XS:

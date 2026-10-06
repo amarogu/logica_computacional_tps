@@ -54,6 +54,8 @@ def erros_da_grelha(g, n):
 
     return erros
 
+# Testes
+
 #R1: linhas, colunas e blocos
 
 @pytest.mark.parametrize("n", [2, 3])
