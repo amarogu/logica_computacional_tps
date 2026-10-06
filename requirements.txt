@@ -1,0 +1,8 @@
+# Python >= 3.14
+# python -m venv .venv && .venv/bin/pip install -r requirements.txt
+marimo>=0.25.0
+ortools>=9.15
+anywidget>=0.11.0
+traitlets>=5.16
+# TP1.2 tests (sudoku_test.py)
+pytest
