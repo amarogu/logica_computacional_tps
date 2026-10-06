@@ -5,7 +5,7 @@ def exibe_sudoku(grelha, n, titulo="SUDOKU"):
     `n`: dimensão dos blocos (ex: n=3 para Sudoku 9x9)
     """
     if grelha is None:
-        print(f"\n{titulo}: Sem solução!")
+        print(f"\n{titulo}: Sem solução!")  
         return
 
     N = n ** 2

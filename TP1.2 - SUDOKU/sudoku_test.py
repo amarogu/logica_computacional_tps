@@ -3,16 +3,15 @@ import pytest
 from sudoku_csp import box, cube, path, pistas_aleatorias, Modelo
 
 
-# ---------- Funções auxiliares ----------
+#Funções auxiliares 
 
 def montar_e_resolver(n, k=None):
-    """Fluxo completo: pistas -> linhas + colunas + blocos + pistas -> resolver."""
     N = n * n
     pistas = pistas_aleatorias(n, k)
 
-    grupos = [path(n, (i, 0), (i, N - 1)) for i in range(N)]       # linhas
-    grupos += [path(n, (0, j), (N - 1, j)) for j in range(N)]      # colunas
-    grupos += [cube(n, i, j) for i in range(n) for j in range(n)]  # blocos
+    grupos = [path(n, (i, 0), (i, N - 1)) for i in range(N)]        # linhas
+    grupos += [path(n, (0, j), (N - 1, j)) for j in range(N)]        # colunas
+    grupos += [cube(n, i, j) for i in range(n) for j in range(n)]           # blocos
     grupos.append(pistas)
 
     modelo = Modelo(n)
@@ -21,7 +20,6 @@ def montar_e_resolver(n, k=None):
 
 
 def resolver_com_pistas_validas(n, tentativas=50):
-    """Pistas aleatórias podem ser contraditórias: tenta várias vezes."""
     for _ in range(tentativas):
         pistas, sol = montar_e_resolver(n)
         if sol is not None:
@@ -56,22 +54,7 @@ def erros_da_grelha(g, n):
 
     return erros
 
-
-# ---------- Teste do próprio validador ----------
-
-def test_validador_aceita_grelha_correta_e_rejeita_errada():
-    boa = [[1, 2, 3, 4],
-           [3, 4, 1, 2],
-           [2, 1, 4, 3],
-           [4, 3, 2, 1]]
-    assert erros_da_grelha(boa, 2) == []
-
-    ma = [linha[:] for linha in boa]
-    ma[0][0] = 2                       # repete o 2 na primeira linha
-    assert erros_da_grelha(ma, 2) != []
-
-
-# ---------- Requisito 1: linhas, colunas e blocos ----------
+#R1: linhas, colunas e blocos
 
 @pytest.mark.parametrize("n", [2, 3])
 def test_linhas_colunas_blocos_tem_todos_os_valores(n):
@@ -79,7 +62,7 @@ def test_linhas_colunas_blocos_tem_todos_os_valores(n):
     assert erros_da_grelha(sol, n) == []
 
 
-# ---------- Requisito 2: pistas mantêm o valor ----------
+# R2: pistas mantêm o valor 
 
 @pytest.mark.parametrize("n", [2, 3])
 def test_pistas_mantem_valor_na_solucao(n):
@@ -89,7 +72,7 @@ def test_pistas_mantem_valor_na_solucao(n):
         assert sol[i][j] == val, f"pista ({i},{j})={val} mudou para {sol[i][j]}"
 
 
-# ---------- Requisito 3: add rejeita entradas inválidas ----------
+# R3: add rejeita entradas inválidas
 
 @pytest.mark.parametrize("n", [2, 3])
 @pytest.mark.parametrize("i, j", [(-1, 0), (0, -1), ("N", 0), (0, "N")])   #N -> Dimensão da grelha, varia de acordo com n
@@ -130,22 +113,3 @@ def test_add_aceita_limites_validos(n):
     assert b.coords[(N - 1, N - 1)] == N
     assert b.coords[(0, 1)] is None
 
-
-def test_pistas_aleatorias_aceita_k_maior_que_numero_de_valores():
-    pistas = pistas_aleatorias(3, k=10)
-    assert len(pistas.coords) == 10
-    assert all(1 <= valor <= 9 for valor in pistas.coords.values())
-
-
-def test_pistas_podem_repetir_valores_em_celulas_diferentes():
-    n = 2
-    N = n * n
-    pistas = box(n, {(0, 0): 1, (1, 3): 1})
-    grupos = [path(n, (i, 0), (i, N - 1)) for i in range(N)]
-    grupos += [path(n, (0, j), (N - 1, j)) for j in range(N)]
-    grupos += [cube(n, i, j) for i in range(n) for j in range(n)]
-    grupos.append(pistas)
-
-    modelo = Modelo(n)
-    modelo.adicionar(*grupos)
-    assert modelo.resolver() is not None

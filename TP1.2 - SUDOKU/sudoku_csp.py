@@ -25,12 +25,13 @@ class box:
                 grid[i][j] = self.coords.get((i, j), 0)
             print(*grid[i])
 
-class cube():
-    def __init__(self, n, i, j): 
+class cube(box):
+    def __init__(self, n, i, j):
+        super().__init__(n)
         self.n = n
         self.coords = {(i * n + a, j * n + b): None for a in range(n) for b in range(n)}
 
-class path():
+class path(box):
 
     def __init__(self, n, start, end):
         self.n = n
@@ -43,10 +44,12 @@ class path():
         else:
             self.coords = {(i,j) : None for i in range(a1, a2+1) for j in range(b1, b2+1)}
 
-def diagonais(n):
-    N = n**2
-    return [path(n, (0, 0), (N - 1, N - 1)),      # principal
-            path(n, (0, N - 1), (N - 1, 0))]      # secundária
+class XSudoku(box):
+    def __init__(self, n):
+        super().__init__(n)
+        N = n**2
+        self.diagonalPrincipal = [box(n, {(i, i): None for i in range(N)})]
+        self.diagonalSecundaria = [box(n, {(i, N - 1 - i): None for i in range(N)})]
 
 def pistas_aleatorias(n, k=None):
 
@@ -79,11 +82,19 @@ class Modelo:
             for i in range(self.N) for j in range(self.N)
         } 
 
-    def adicionar(self, *grupos):
+    def adicionar(self, *grupos, XS:bool):
         for grupo in grupos: 
+            if isinstance(grupo, XSudoku):
+                if XS:
+                    for diagonal in grupo.diagonalPrincipal + grupo.diagonalSecundaria:
+                        vars_diagonal = [self.x[i, j] for i, j in diagonal.coords]
+                        self.m.AddAllDifferent(vars_diagonal)
+                continue
+
             vars_do_grupo = [self.x[i, j] for (i, j) in grupo.coords.keys()] #retorna as variáveis de cada célula do grupo
             if isinstance(grupo, (path, cube)):
                 self.m.AddAllDifferent(vars_do_grupo)  #impoe que todas as variáveis do grupo sejam diferentes para o solver
+
             for (i, j), val in grupo.coords.items():
                 if val is not None:
                     self.m.Add(self.x[i, j] == val)  #Se nao é nula, diz ao solver que a variável não é livre, e sim fixa ao valor val
