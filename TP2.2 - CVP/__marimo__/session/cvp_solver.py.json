@@ -1,0 +1,35 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.25.2",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "jlQj",
+      "code_hash": "fa16a4aa5f129846956b862ba5976337",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"o-closest-vector-problem-cvp\">O \"Closest Vector Problem\" (CVP)</h1>\n<span class=\"paragraph\">Seja um conjunto espec\u00edfico de vetores linearmente independentes <marimo-tex class=\"arithmatex\">||(G \\equiv \\set{g_1, g_2, \\dots, g_k \\mid g_i \\in \\reals^m}||)</marimo-tex>; o reticulado determinado por <marimo-tex class=\"arithmatex\">||(G||)</marimo-tex>, <marimo-tex class=\"arithmatex\">||(\\mathcal{L}_G \\equiv \\set{x = z_1g_1, z_2g_2, \\dots, z_kg_k  \\mid z_i \\in \\Z}||)</marimo-tex>. E finalmente um vetor aleat\u00f3rio <marimo-tex class=\"arithmatex\">||(t||)</marimo-tex> (target), com cada um de seus componentes &gt;= 0, qual \u00e9 o vetor <marimo-tex class=\"arithmatex\">||(x \\in \\mathcal{L}_G||)</marimo-tex> que est\u00e1 mais pr\u00f3ximo de (closest to) <marimo-tex class=\"arithmatex\">||(t||)</marimo-tex>?</span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
