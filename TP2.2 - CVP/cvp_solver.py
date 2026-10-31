@@ -464,9 +464,14 @@ def _(mo):
     * **Escalabilidade.** O número de nós cresce de forma aproximadamente
       exponencial em $k$ (reta em escala logarítmica), como esperado: o CVP é
       NP-difícil. Até $k=30$ a otimalidade é provada em segundos/dezenas de
-      segundos; para $k=40$ e $k=50$ o limite de tempo é normalmente atingido,
-      mas o B&B devolve uma solução muito melhor que o arredondamento e um
-      *gap* pequeno, que mede quão longe, no máximo, estamos do ótimo.
+      segundos; para $k=40$ e $k=50$ o limite de tempo é atingido. Nesse caso o
+      B&B devolve a melhor solução encontrada e um *gap*, que mede quão longe,
+      no máximo, estamos do ótimo. Numa corrida com 60 s: para $k=40$ o *gap*
+      ficou em ≈ 4–6 %; para $k=50$ subiu para ≈ 11–17 %. Na maioria dos casos
+      a solução é bastante melhor que o arredondamento de $u$ (p.ex. 4.50 vs
+      26.3 em $k=50,\ell=1$), mas em $k=50,\ell=5$ o B&B **não** conseguiu
+      melhorar o arredondamento dentro do limite — é aqui que a abordagem
+      deixa de escalar.
     * **Porque é difícil.** Como as entradas de $G$ são todas positivas, as
       linhas de $G$ são quase paralelas e $Q=GG^\top$ é mal condicionada (um
       valor próprio enorme e muitos pequenos). As relaxações contínuas
