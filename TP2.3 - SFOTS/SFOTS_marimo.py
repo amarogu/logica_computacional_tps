@@ -76,7 +76,7 @@ def _(mo):
 
 @app.cell
 def _():
-    n = 16
+    n = 4
     return (n,)
 
 
@@ -197,7 +197,7 @@ def _(Not, Solver, unsat):
     return (k_inducao,)
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## Alínea 2: Prova do Invariante

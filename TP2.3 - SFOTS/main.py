@@ -2,7 +2,29 @@ from z3 import *
 
 def resolver_trabalho(n=16):
 
-  # 1
+  # Neste trabalho, foi implementado um SFOTS (Single-Function One-Transition System) que representa um programa que calcula
+  #  o produto de dois números a e b, armazenando o resultado em z. Foram usadas as funções do solver Z3 para desenvolver a 
+  # solução. 
+
+  # Uso de LLMs
+
+  # A LMM foi usada em diversas etapas deste trabalho, como:
+  # - Obter uma melhor compreensão do enunciado
+  # - Explicar conceitos de lógica computacional e SFOTS
+  # - Definir a função k_indução para provar propriedades de invariança, segurança e terminação
+  # - Alterar trechos de código que estavam causando problemas para provar as propriedades desejadas. 
+  # - Passar meus comentários para síntaxe do marimo.
+
+  # O link da conversa se encontra aqui
+  # https://share.gemini.google/fQauRgpQr5HF
+  # Também há um arquivo json com a convesa com o copilot, que não consegui compartilhar um link.
+
+  # Para a alínea 1:
+  # - As variáveis do modelo são vetores de bits de tamanho n.
+  # - O estado inicial é definido por conjunções de várias condições enquanto os demais estados não são definidos diretamente, 
+  # mas sim por um ponteiro que navega entre estados
+  # - A transição entre estados é definida por conjunções de várias condições, que representam as regras de transição do programa.
+  # - O estado de erro é acionado quando há overflow na soma ou no shift, e o programa termina quando y == 0.
   a, b, x, y, z = BitVecs('a b x y z', n)
   x_next, y_next, z_next = BitVecs('x_next y_next z_next', n)
   a_next, b_next = BitVecs('a_next b_next', n)
@@ -63,7 +85,13 @@ def resolver_trabalho(n=16):
       Or(tr_0_1, tr_loop_end, tr_erro, tr_par, tr_impar), inputs
   )
 
-  # Função auxiliar gerada por IA
+  # Para a alínea 2:
+  # para provar a propriedade (x∗y+z=a∗b)​ é valida neste SFOTS, foi usada a técnica de k-indução, provando a validade de uma propriedade
+  # no caso base e no passo indutivo. Para isso, com o auxílio da LLM, foi definida uma função k_indução que recebe como
+  # parametros o nome da propriedade, a propriedade P, a propriedade P para o próximo estado e um estado de inicialização,
+  # que por padrão é o estado init definido no começo do programa. Dessa forma, a invariante para o caso base e para o passo indutivo
+  # foram definidas através de conjunções de implicações e então passadas para a função k_indução. A resposta esperada é que a 
+  # propriedade seja provada. 
   def k_inducao(nome, P, P_next, custom_init=init):
 
     s_base = Solver()
@@ -101,6 +129,11 @@ def resolver_trabalho(n=16):
     )
   k_inducao('Invariante (x*y + z == a*b)', inv, inv_next)
 
+  # Para a alínea 3:
+  # para provar a propriedade de segurança (a,b,x,y,z)∈[0,2^(n/2)−1]​, foi novamente usada a técnica de k-indução mas dessa vez
+  # com uma série de restrições de segurança para as variáveis e para o estado inicial, que foram definidos através de
+  # recursos do Z3 como ULE, UGT, Implies, BVMulNoOverflow e BVAddNoOverflow. Após isso, a função k_indução foi chamada com essas
+  #  restrições e o estado inicial seguro, e a resposta esperada é que a propriedade seja provada.
   limite =  2 ** (n // 2)
   init_seguro = And(init, a < limite, b < limite)
   limites_estado = And(
@@ -140,8 +173,13 @@ def resolver_trabalho(n=16):
       custom_init=init_seguro
   ) 
 
-  # A medida de progresso e unsigned: y deve diminuir enquanto o laço
-  # continua. A transição de erro não faz parte do laço normal.
+  # Para a alínea 4:
+    # para provar a propriedade de terminação (y decresce ou zera), foi usada a técnica de k-indução
+    # uma última vez, definindo uma propriedade de progresso que representa a condição de terminação do programa, 
+    # e então usando o solver para verificar que ao haver uma transição, o trecho Not(progresso) não é satisfazível,
+    # logo, a cada iteração, y sempre é decrementado ou zera, e o programa termina, quaisquer sejam os valores de a e b iniciais. 
+    # A resposta esperada é que a propriedade seja provada.
+
   progresso = Or(ULT(y_next, y), y == 0)
 
   s_term = Solver()
@@ -166,4 +204,5 @@ def resolver_trabalho(n=16):
 
 
 if __name__ == '__main__':
+  
   resolver_trabalho(4)

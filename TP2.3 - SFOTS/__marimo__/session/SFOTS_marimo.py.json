@@ -20,12 +20,12 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "48564a3f453db09e140316148f693b85",
+      "code_hash": "692c09ab7ecf71deb2f69763edab9c05",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"verificacao-formal-de-sfots-com-z3\">Verifica\u00e7\u00e3o Formal de SFOTS com Z3</h1>\n<span class=\"paragraph\">Este notebook modela e verifica formalmente um programa imperativo de multiplica\u00e7\u00e3o de dois n\u00fameros <marimo-tex class=\"arithmatex\">||(a||)</marimo-tex> e <marimo-tex class=\"arithmatex\">||(b||)</marimo-tex>, armazenando o resultado em <marimo-tex class=\"arithmatex\">||(z||)</marimo-tex>. Foram utilizadas as fun\u00e7\u00f5es do solver <strong>Z3</strong> para desenvolver a solu\u00e7\u00e3o.</span>\n<hr />\n<h2 id=\"uso-de-llms\">Uso de LLMs</h2>\n<span class=\"paragraph\">A LLM foi usada em diversas etapas deste trabalho, como:</span>\n<ul>\n<li>Obter uma melhor compreens\u00e3o do enunciado</li>\n<li>Explicar conceitos de l\u00f3gica computacional e SFOTS</li>\n<li>Definir a fun\u00e7\u00e3o <code>k_inducao</code> para provar propriedades de invarian\u00e7a, seguran\u00e7a e termina\u00e7\u00e3o</li>\n<li>Alterar trechos de c\u00f3digo que estavam causando problemas para provar as propriedades desejadas</li>\n<li>Passar os coment\u00e1rios para a sintaxe do Marimo</li>\n</ul>\n<span class=\"paragraph\"><strong>Links das conversas:</strong> </span>\n<span class=\"paragraph\"><a href=\"https://share.gemini.google/fQauRgpQr5HF\" rel=\"noopener noreferrer\" target=\"_blank\">Gemini Share</a> </span>\n<span class=\"paragraph\"><a href=\"https://share.gemini.google/lYnlK8iHUL9Q\" rel=\"noopener noreferrer\" target=\"_blank\">https://share.gemini.google/lYnlK8iHUL9Q</a></span>\n<span class=\"paragraph\"><em>(Nota: Tamb\u00e9m h\u00e1 um arquivo JSON com a conversa com o Copilot, cujo link n\u00e3o foi poss\u00edvel compartilhar diretamente).</em></span></span>"
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"verificacao-formal-de-sfots-com-z3\">Verifica\u00e7\u00e3o Formal de SFOTS com Z3</h1>\n<span class=\"paragraph\">Este notebook modela e verifica formalmente um programa imperativo de multiplica\u00e7\u00e3o de dois n\u00fameros <marimo-tex class=\"arithmatex\">||(a||)</marimo-tex> e <marimo-tex class=\"arithmatex\">||(b||)</marimo-tex>, armazenando o resultado em <marimo-tex class=\"arithmatex\">||(z||)</marimo-tex>. Foram utilizadas as fun\u00e7\u00f5es do solver <strong>Z3</strong> para desenvolver a solu\u00e7\u00e3o.</span>\n<hr />\n<h2 id=\"uso-de-llms\">Uso de LLMs</h2>\n<span class=\"paragraph\">A LLM foi usada em diversas etapas deste trabalho, como:</span>\n<ul>\n<li>Obter uma melhor compreens\u00e3o do enunciado</li>\n<li>Explicar conceitos de l\u00f3gica computacional e SFOTS</li>\n<li>Definir a fun\u00e7\u00e3o <code>k_inducao</code> para provar propriedades de invarian\u00e7a, seguran\u00e7a e termina\u00e7\u00e3o</li>\n<li>Alterar trechos de c\u00f3digo que estavam causando problemas para provar as propriedades desejadas</li>\n<li>Passar os coment\u00e1rios para a sintaxe do Marimo</li>\n</ul>\n<span class=\"paragraph\"><strong>Links das conversas:</strong></span>\n<span class=\"paragraph\"><a href=\"https://share.gemini.google/fQauRgpQr5HF\" rel=\"noopener noreferrer\" target=\"_blank\">Gemini Share</a></span>\n<span class=\"paragraph\"><a href=\"https://share.gemini.google/lYnlK8iHUL9Q\" rel=\"noopener noreferrer\" target=\"_blank\">https://share.gemini.google/lYnlK8iHUL9Q</a></span>\n<span class=\"paragraph\"><em>(Nota: Tamb\u00e9m h\u00e1 um arquivo JSON com a conversa com o Copilot, cujo link n\u00e3o foi poss\u00edvel compartilhar diretamente).</em></span></span>"
           }
         }
       ],
@@ -34,7 +34,14 @@
     {
       "id": "vblA",
       "code_hash": "5582c2bc6b2b60c817f5e83be8025d61",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
@@ -52,8 +59,15 @@
     },
     {
       "id": "lEQa",
-      "code_hash": "5bab21eed5c279fb6df5fe549334cde5",
-      "outputs": [],
+      "code_hash": "cff6a0454d14f999df05e954187d3683",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
@@ -72,13 +86,27 @@
     {
       "id": "Xref",
       "code_hash": "e804cfaa6666f98759c5af2b466031b6",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
       "id": "SFPL",
       "code_hash": "9dfaef8c251cfaeec607c0d01a17fc32",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
@@ -97,7 +125,14 @@
     {
       "id": "RGSE",
       "code_hash": "7a907a82d794ff75e452859d4e495ab0",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"invariante-xy-z-ab\">[Invariante (x<em>y + z == a</em>b)]</h3>\n<ul>\n<li><strong>Caso Base:</strong> V\u00e1lido (unsat)</li>\n<li><strong>Passo Indutivo:</strong> V\u00e1lido (unsat)\n-&gt; <strong>Resultado:</strong> PROVADO por k-indu\u00e7\u00e3o!</li>\n</ul></span>"
+          }
+        }
+      ],
       "console": []
     },
     {
@@ -116,7 +151,14 @@
     {
       "id": "emfo",
       "code_hash": "cc657ca81d6c506381132b7823c667c9",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"seguranca-sem-overflow\">[Seguran\u00e7a (Sem Overflow)]</h3>\n<ul>\n<li><strong>Caso Base:</strong> V\u00e1lido (unsat)</li>\n<li><strong>Passo Indutivo:</strong> V\u00e1lido (unsat)\n-&gt; <strong>Resultado:</strong> PROVADO por k-indu\u00e7\u00e3o!</li>\n</ul></span>"
+          }
+        }
+      ],
       "console": []
     },
     {
@@ -135,7 +177,14 @@
     {
       "id": "nWHF",
       "code_hash": "537f0ee7fd543a302367f6ece7a33733",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"terminacao\">[Termina\u00e7\u00e3o]</h3>\n<ul>\n<li><strong>Verifica\u00e7\u00e3o de Progresso (y decresce ou zera):</strong> V\u00e1lido (unsat)\n-&gt; <strong>Provado:</strong> O programa termina sempre.</li>\n</ul></span>"
+          }
+        }
+      ],
       "console": []
     }
   ]
