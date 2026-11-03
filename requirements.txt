@@ -4,5 +4,6 @@ marimo>=0.25.0
 ortools>=9.15
 anywidget>=0.11.0
 traitlets>=5.16
+clarabel>=0.11.0
 # TP1.2 tests (sudoku_test.py)
 pytest
