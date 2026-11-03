@@ -37,11 +37,159 @@ def _(mo):
 
 @app.cell
 def _():
-    # Gerado por LLM: chat (2)
-    import clarabel
+    import heapq
+    import itertools
+    import random
+    import time
+    import warnings
 
-    def solve_cvp(k, m, l):
-        raise NotImplementedError("A função solve_cvp ainda não está implementada.")
+    import cvxpy as cp
+    import numpy as np
+
+    # Um nó com estado OPTIMAL_INACCURATE é tratado em branch_and_bound: não serve para podar
+    warnings.filterwarnings("ignore", message="Solution may be inaccurate")
+
+    def branch_and_bound(G, t, l, tempo_limite=60.0, tol=1e-6):
+        inicio = time.perf_counter()
+        k = G.shape[0]
+        H = G @ G.T
+        Gt = G @ t
+
+        # Com Gᵀ = QR, ||Gᵀz - t||² = ||Rz - Qᵀt||² + resto²: o cone fica com k + 2 entradas em vez de m + 1
+        Q, R = np.linalg.qr(G.T)
+        alvo = Q.T @ t
+        resto = np.linalg.norm(t - Q @ alvo)
+
+        # Relaxação de cada nó: z contínuo com lo <= z <= hi e r >= ||Gᵀz - t||₂ (cone de segunda ordem)
+        z, r = cp.Variable(k), cp.Variable()
+        lo, hi = cp.Parameter(k), cp.Parameter(k)
+        cone = cp.SOC(r, cp.hstack([alvo - R @ z, [resto]]))
+        relaxacao = cp.Problem(cp.Minimize(r), [cone, z >= lo, z <= hi])
+
+        # Passos de ±1 em uma ou duas coordenadas, para a pesquisa local
+        passos = []
+        for i in range(k):
+            for si in (1, -1):
+                passo = np.zeros(k)
+                passo[i] = si
+                passos.append(passo)
+                for j in range(i + 1, k):
+                    for sj in (1, -1):
+                        duplo = passo.copy()
+                        duplo[j] = sj
+                        passos.append(duplo)
+        passos = np.array(passos)
+        custos = (passos @ H * passos).sum(axis=1)
+
+        # A partir de um z inteiro, dá sempre o passo que mais reduz dist², até nenhum passo ajudar
+        def pesquisa_local(z_int):
+            gradiente = 2 * (H @ z_int - Gt)
+            while True:
+                variacao = passos @ gradiente + custos
+                novos = z_int + passos
+                variacao[((novos < 0) | (novos > l)).any(axis=1)] = np.inf
+                melhor_passo = variacao.argmin()
+                if variacao[melhor_passo] >= -1e-9:
+                    return z_int
+                z_int = novos[melhor_passo]
+                gradiente = gradiente + 2 * H @ passos[melhor_passo]
+
+        melhor_z, melhor_d = np.zeros(k), np.linalg.norm(t)
+
+        def avaliar(candidato):
+            nonlocal melhor_z, melhor_d
+            d = np.linalg.norm(G.T @ candidato - t)
+            if d < melhor_d:
+                melhor_z, melhor_d = candidato, d
+
+        # Best-first: abre sempre o nó com menor limite inferior (o contador só desempata)
+        contador = itertools.count()
+        abertos = [(0.0, next(contador), np.zeros(k), np.full(k, float(l)))]
+        nos = 0
+        while abertos and abertos[0][0] < melhor_d - tol and time.perf_counter() - inicio < tempo_limite:
+            limite, _, a, b = heapq.heappop(abertos)
+            if (a == b).all():
+                avaliar(a)
+                continue
+
+            lo.value, hi.value = a, b
+            try:
+                relaxacao.solve(solver=cp.CLARABEL)
+                estado = relaxacao.status
+            except cp.SolverError:
+                estado = None
+            nos += 1
+
+            # Se o solver falhar, continua a ramificar a partir do meio da caixa: nada fica por explorar
+            v = z.value if estado in (cp.OPTIMAL, cp.OPTIMAL_INACCURATE) else (a + b) / 2
+            candidato = np.clip(np.round(v), 0, l)
+            avaliar(pesquisa_local(candidato) if nos % 10 == 1 else candidato)
+
+            # Só uma solução exata da relaxação dá um limite inferior em que se possa confiar
+            exato = estado == cp.OPTIMAL
+            if exato:
+                limite = max(limite, float(r.value))
+            if limite >= melhor_d - tol:
+                continue
+
+            livres = np.flatnonzero(a < b)
+            if exato:
+                # Todo o z melhor que o atual cumpre (z - v)ᵀH(z - v) < melhor_d² - r²:
+                # a caixa que envolve esse elipsoide aperta os limites das coordenadas livres
+                inversa = np.diag(np.linalg.inv(H[np.ix_(livres, livres)]))
+                raio = np.sqrt((melhor_d**2 - float(r.value) ** 2 + 1e-6) * inversa)
+                a, b = a.copy(), b.copy()
+                a[livres] = np.maximum(a[livres], np.ceil(v[livres] - raio - 1e-6))
+                b[livres] = np.minimum(b[livres], np.floor(v[livres] + raio + 1e-6))
+                if (a > b).any():
+                    continue
+                livres = np.flatnonzero(a < b)
+                if livres.size == 0:
+                    avaliar(a)
+                    continue
+
+            # Ramifica na coordenada mais fracionária: z_i <= corte ou z_i >= corte + 1
+            i = livres[np.abs(v[livres] - np.round(v[livres])).argmax()]
+            corte = np.clip(np.floor(v[i]), a[i], b[i] - 1)
+            b_baixo, a_cima = b.copy(), a.copy()
+            b_baixo[i], a_cima[i] = corte, corte + 1
+            heapq.heappush(abertos, (limite, next(contador), a, b_baixo))
+            heapq.heappush(abertos, (limite, next(contador), a_cima, b))
+
+        otimo = not abertos or abertos[0][0] >= melhor_d - tol
+        return {
+            "x": G.T @ melhor_z,
+            "z": melhor_z.astype(int),
+            "dist": float(melhor_d),
+            "limite_inferior": float(melhor_d if otimo else abertos[0][0]),
+            "otimo": otimo,
+            "nos": nos,
+            "tempo": time.perf_counter() - inicio,
+        }
+
+    def solve_cvp(k, m, l, seed=None, tempo_limite=60.0):
+        if any(v < 1 or v % 1 for v in (k, m, l)):
+            raise ValueError("k, m e l têm de ser números inteiros positivos.")
+        k, m, l = int(k), int(m), int(l)
+        if k > m:
+            raise ValueError("Reduz k ou aumenta m: em dimensão m não há mais de m vetores linearmente independentes.")
+        gerador = random.Random(seed)
+
+        while True:
+            G = []
+            for i in range(0, k):
+                g_i = []
+                for j in range(0, m):
+                    g_ij = gerador.uniform(0, 1)
+                    g_i.append(g_ij)
+                G.append(g_i)
+            G = np.array(G)
+            if np.linalg.matrix_rank(G) == k:
+                break
+
+        u = np.array([gerador.uniform(0, l) for _ in range(k)])
+        t = G.T @ u
+        return {**branch_and_bound(G, t, l, tempo_limite), "G": G, "t": t}
 
     return (solve_cvp,)
 
@@ -121,27 +269,42 @@ def _(figura, mo):
 @app.cell(hide_code=True)
 def _(mo, parametros, solve_cvp):
     # Gerado por LLM: chat (2)
-    from numbers import Number
-
     mo.stop(parametros.value is None)
 
     try:
         with mo.status.spinner(title="À procura do vetor mais próximo…"):
-            _x = solve_cvp(**parametros.value)
-    except (NotImplementedError, ValueError) as _erro:
+            _r = solve_cvp(**parametros.value)
+    except ValueError as _erro:
         mo.stop(True, mo.callout(str(_erro), kind="danger"))
-    mo.stop(_x is None, mo.callout("O solver não encontrou nenhum vetor.", kind="danger"))
 
-    # Uma sequência de números é escrita como vetor (e parte de linha se for longa);
-    # qualquer outro resultado é mostrado tal como vem
-    if hasattr(_x, "__iter__") and all(isinstance(_c, Number) for _c in _x):
-        _coordenadas = r",\allowbreak ".join(map(str, _x))
-        _resposta = mo.md(f"$x = ({_coordenadas})$")
-    else:
-        _resposta = mo.as_html(_x)
+    # Os vetores partem de linha se forem longos
+    _x = r",\allowbreak ".join(f"{_c:.4f}" for _c in _r["x"])
+    _z = r",\allowbreak ".join(map(str, _r["z"]))
     _dados = ", ".join(f"{_n} = {_v}" for _n, _v in parametros.value.items())
 
-    mo.callout(mo.vstack([mo.md(f"**Vetor mais próximo** para ${_dados}$"), _resposta]), kind="success")
+    # Sem prova de otimalidade, o resultado é apresentado como o melhor encontrado, com o intervalo da distância ótima
+    if _r["otimo"]:
+        _titulo = f"**Vetor mais próximo** para ${_dados}$"
+        _estado = f"Ótimo provado em {_r['nos']} nós e {_r['tempo']:.1f} s."
+    else:
+        _titulo = f"**Melhor vetor encontrado** para ${_dados}$"
+        _estado = (
+            f"Tempo esgotado ao fim de {_r['nos']} nós e {_r['tempo']:.1f} s: "
+            f"a distância ótima está entre {_r['limite_inferior']:.4f} e {_r['dist']:.4f}."
+        )
+
+    mo.callout(
+        mo.vstack(
+            [
+                mo.md(_titulo),
+                mo.md(f"$x = ({_x})$"),
+                mo.md(f"$z = ({_z})$"),
+                mo.md(f"$\\text{{dist}}(x, t) = {_r['dist']:.4f}$"),
+                mo.md(_estado),
+            ]
+        ),
+        kind="success" if _r["otimo"] else "warn",
+    )
     return
 
 
