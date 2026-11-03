@@ -1,0 +1,142 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.25.1",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "48564a3f453db09e140316148f693b85",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"verificacao-formal-de-sfots-com-z3\">Verifica\u00e7\u00e3o Formal de SFOTS com Z3</h1>\n<span class=\"paragraph\">Este notebook modela e verifica formalmente um programa imperativo de multiplica\u00e7\u00e3o de dois n\u00fameros <marimo-tex class=\"arithmatex\">||(a||)</marimo-tex> e <marimo-tex class=\"arithmatex\">||(b||)</marimo-tex>, armazenando o resultado em <marimo-tex class=\"arithmatex\">||(z||)</marimo-tex>. Foram utilizadas as fun\u00e7\u00f5es do solver <strong>Z3</strong> para desenvolver a solu\u00e7\u00e3o.</span>\n<hr />\n<h2 id=\"uso-de-llms\">Uso de LLMs</h2>\n<span class=\"paragraph\">A LLM foi usada em diversas etapas deste trabalho, como:</span>\n<ul>\n<li>Obter uma melhor compreens\u00e3o do enunciado</li>\n<li>Explicar conceitos de l\u00f3gica computacional e SFOTS</li>\n<li>Definir a fun\u00e7\u00e3o <code>k_inducao</code> para provar propriedades de invarian\u00e7a, seguran\u00e7a e termina\u00e7\u00e3o</li>\n<li>Alterar trechos de c\u00f3digo que estavam causando problemas para provar as propriedades desejadas</li>\n<li>Passar os coment\u00e1rios para a sintaxe do Marimo</li>\n</ul>\n<span class=\"paragraph\"><strong>Links das conversas:</strong> </span>\n<span class=\"paragraph\"><a href=\"https://share.gemini.google/fQauRgpQr5HF\" rel=\"noopener noreferrer\" target=\"_blank\">Gemini Share</a> </span>\n<span class=\"paragraph\"><a href=\"https://share.gemini.google/lYnlK8iHUL9Q\" rel=\"noopener noreferrer\" target=\"_blank\">https://share.gemini.google/lYnlK8iHUL9Q</a></span>\n<span class=\"paragraph\"><em>(Nota: Tamb\u00e9m h\u00e1 um arquivo JSON com a conversa com o Copilot, cujo link n\u00e3o foi poss\u00edvel compartilhar diretamente).</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "5582c2bc6b2b60c817f5e83be8025d61",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "c7769db653b29f9a7dc859126a4047a4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"parametrosglobais\">Par\u00e2metrosGlobais</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "5bab21eed5c279fb6df5fe549334cde5",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "ad5e2f928de99c8e58f5ca8ac5c0a174",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"alinea-1-modelacao-do-sfots\">Al\u00ednea 1: Modela\u00e7\u00e3o do SFOTS</h1>\n<ul>\n<li>As vari\u00e1veis do modelo s\u00e3o vetores de bits de tamanho n.</li>\n<li>O estado inicial \u00e9 definido por conjun\u00e7\u00f5es de v\u00e1rias condi\u00e7\u00f5es, enquanto os demais estados n\u00e3o s\u00e3o definidos diretamente, mas sim por um ponteiro (<code>loc</code>) que navega entre estados.</li>\n<li>A transi\u00e7\u00e3o entre estados \u00e9 definida por conjun\u00e7\u00f5es de v\u00e1rias condi\u00e7\u00f5es, que representam as regras de transi\u00e7\u00e3o do programa.</li>\n<li>O estado de erro \u00e9 acionado quando h\u00e1 overflow na soma ou no shift, e o programa termina quando y = 0.</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "e804cfaa6666f98759c5af2b466031b6",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "9dfaef8c251cfaeec607c0d01a17fc32",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "8ddaabbd6eff80c7fde6b0c9dd314017",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"alinea-2-prova-do-invariante\">Al\u00ednea 2: Prova do Invariante</h2>\n<span class=\"paragraph\">Para provar a propriedade <marimo-tex class=\"arithmatex\">||((x \\cdot y + z = a \\cdot b)||)</marimo-tex> \u00e9 v\u00e1lida neste SFOTS, foi usada a t\u00e9cnica de <marimo-tex class=\"arithmatex\">||(k||)</marimo-tex>-indu\u00e7\u00e3o, provando a validade de uma propriedade no caso base e no passo indutivo.\nPara isso, com o aux\u00edlio da LLM, foi definida uma fun\u00e7\u00e3o <code>k_inducao</code> que recebe como par\u00e2metros o nome da propriedade, a propriedade <marimo-tex class=\"arithmatex\">||(P||)</marimo-tex>, a propriedade <marimo-tex class=\"arithmatex\">||(P||)</marimo-tex> para o pr\u00f3ximo estado e um estado de inicializa\u00e7\u00e3o, que por padr\u00e3o \u00e9 o estado <code>init</code> definido no come\u00e7o do programa.\nDessa forma, a invariante para o caso base e para o passo indutivo foram definidas atrav\u00e9s de conjun\u00e7\u00f5es de implica\u00e7\u00f5es e ent\u00e3o passadas para a fun\u00e7\u00e3o <code>k_inducao</code>. A resposta esperada \u00e9 que a propriedade seja provada.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "7a907a82d794ff75e452859d4e495ab0",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "4968a490ba037ebabdcfcabdecb58221",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"alinea-3-prova-de-seguranca\">Al\u00ednea 3: Prova de Seguran\u00e7a</h2>\n<span class=\"paragraph\">Para provar a propriedade de seguran\u00e7a <marimo-tex class=\"arithmatex\">||((a,b,x,y,z) \\in [0, 2^{n/2}-1]||)</marimo-tex>, foi novamente usada a t\u00e9cnica de <marimo-tex class=\"arithmatex\">||(k||)</marimo-tex>-indu\u00e7\u00e3o, mas dessa vez com uma s\u00e9rie de restri\u00e7\u00f5es de seguran\u00e7a para as vari\u00e1veis e para o estado inicial, que foram definidos atrav\u00e9s de recursos do Z3 como <code>ULE</code>, <code>UGT</code>, <code>Implies</code>, <code>BVMulNoOverflow</code> e <code>BVAddNoOverflow</code>.\nAp\u00f3s isso, a fun\u00e7\u00e3o <code>k_inducao</code> foi chamada com essas restri\u00e7\u00f5es e o estado inicial seguro, e a resposta esperada \u00e9 que a propriedade seja provada.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "cc657ca81d6c506381132b7823c667c9",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "57d32721b07a5e85933fbd53b13bf821",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"alinea-4-prova-de-terminacao-animacao\">Al\u00ednea 4: Prova de Termina\u00e7\u00e3o (Anima\u00e7\u00e3o)</h2>\n<span class=\"paragraph\">Para provar a propriedade de termina\u00e7\u00e3o (<marimo-tex class=\"arithmatex\">||(y||)</marimo-tex> decresce ou zera), foi usada a t\u00e9cnica de <marimo-tex class=\"arithmatex\">||(k||)</marimo-tex>-indu\u00e7\u00e3o uma \u00faltima vez, definindo uma propriedade de progresso que representa a condi\u00e7\u00e3o de termina\u00e7\u00e3o do programa.\nEm seguida, usamos o solver para verificar que ao haver uma transi\u00e7\u00e3o, o trecho <code>Not(progresso)</code> n\u00e3o \u00e9 satisfaz\u00edvel, logo, a cada itera\u00e7\u00e3o, <marimo-tex class=\"arithmatex\">||(y||)</marimo-tex> sempre \u00e9 decrementado ou zera, e o programa termina, quaisquer que sejam os valores de <marimo-tex class=\"arithmatex\">||(a||)</marimo-tex> e <marimo-tex class=\"arithmatex\">||(b||)</marimo-tex> iniciais. A resposta esperada \u00e9 que a propriedade seja provada.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "537f0ee7fd543a302367f6ece7a33733",
+      "outputs": [],
+      "console": []
+    }
+  ]
+}
